@@ -88,3 +88,8 @@ body {
     background: #ff4b2b;
 }
 
+#email_sucs{
+    color: red;
+    margin-top: 10px;
+    text-transform: capitalize;
+}

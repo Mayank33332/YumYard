@@ -10,7 +10,7 @@ body {
     justify-content: center;
     align-items: center;
     height: 100vh;
-    background: #5C2FC2;
+    background: #16423C;
 }
 
 .register-container {
@@ -96,4 +96,18 @@ body {
     background: #ff4b2b;
 }
 
-    
+#email_err{
+    color: red;
+    font-size: 15px;
+    margin-top: 1px;
+    margin-bottom: -10pxs;
+    text-transform: capitalize;
+}
+
+#email_sucs{
+    color: green;
+    font-size: 15px;
+    margin-top: 1px;
+    margin-top:12px;
+    text-transform: capitalize;
+}

@@ -1,27 +1,4 @@
-<?php
-session_start();
-    include ("database.inc.php");
-    include ("function.php");
-    $msg="";
 
-    if (isset($_POST["submit"])) {
-
-        $email=  get_safe_value($_POST['email']);
-        $password= get_safe_value($_POST['password']);
-
-        $sql="select * from admin where email='$email'and password='$password'";
-        $result=mysqli_query($con,$sql);
-        if(mysqli_num_rows($result)> 0){
-            $row=mysqli_fetch_array($result);
-            $_SESSION['is_login']='yes';
-            $_SESSION['Admin_user']=$row['name'];
-            redirect('admin-top.php');
-        }
-        else{   
-            $msg='ohh you are wrong brooooo !!';
-    }
-}
-?>
 
 <!-- ===============================================GUI====================================== -->
 <!DOCTYPE html>
@@ -37,37 +14,33 @@ session_start();
     <div class="login-container">
         <div class="login-form">
             <h2>Login to now</h2>
-            <form  method="post">
+            <form id="frm-login" method="post" >
                 <div class="form-group">
-                    <label for="email"><i class="fas fa-user"></i> Email</label>
+                    <label for="email"><i class="fas fa-user"></i> email</label>
                     <div class="input-container">
                         <i class="fas fa-user icon"></i>
-                        <input type="email" id="email" name="email" required>
+                        <input type="email" id="email" name="user_email" required>
                     </div>
                 </div>
                 <div class="form-group">
                     <label for="password"><i class="fas fa-lock"></i> Password</label>
                     <div class="input-container">
                         <i class="fas fa-lock icon"></i>
-                        <input type="password" id="password" name="password" required>
+                        <input type="password" id="password" name="user_password" required>
                     </div>
+                    <div id="email_sucs"></div>
                 </div>
                 <div class="form-group">
                     <button type="submit" name="submit"><i class="fas fa-sign-in-alt"></i> Login</button>
                 </div>
                 <label>new user ?</label><a href="reg_user.php">click here</a>
-                    <div class="msgs"><?php echo $msg ?></div>
-                    <style>
-                        .msgs{
-                            color:red;
-                            font-weight: bold;
-                            text-transform: capitalize;
-                            margin-top: 12px;
-                        }
-                    </style>
+
+                    <input type="hidden" name="type" value="login"/>
             </form>
 
         </div>
     </div>
+    <script src="assets/js/jquery-3.7.1.min.js"></script>
+    <script src="custom.js"></script>
 </body>
 </html>

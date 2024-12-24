@@ -1,7 +1,8 @@
 <?php
 include("database.inc.php");
 include("function.php");
-$sql = "select * from copoun_code order by 	id";
+include("constrant.php");
+$sql = "select dish. *,catagory.catagory from dish,catagory where dish.catagory_id=catagory.id order by dish";
 $res = mysqli_query($con, $sql);
 
 
@@ -10,8 +11,8 @@ if (isset($_GET['type']) && ($_GET['type'] != '') && isset($_GET['id']) && ($_GE
     $type = get_safe_value($_GET['type']);
     $id = get_safe_value($_GET['id']);
     if ($type == 'delete') {
-        mysqli_query($con, "delete from copoun_code where id='$id'");
-        redirect("copuon_code.php");
+        mysqli_query($con, "delete from dish where id='$id'");
+        redirect("dish.php");
     }
 
     if ($type == 'active' || ($type == 'deactive')) {
@@ -19,14 +20,10 @@ if (isset($_GET['type']) && ($_GET['type'] != '') && isset($_GET['id']) && ($_GE
         if ($type == 'deactive') {
             $status = 0;
         }
-        mysqli_query($con, "update copoun_code set status='$status'  where id='$id'");
+        mysqli_query($con, "update dish set status='$status'  where id='$id'");
     }
 }
-
-
-
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -92,6 +89,8 @@ if (isset($_GET['type']) && ($_GET['type'] != '') && isset($_GET['id']) && ($_GE
         <div class="container-fluid page-body-wrapper">
             <!-- partial:partials/_sidebar.html -->
             <nav class="sidebar sidebar-offcanvas" id="sidebar">
+
+
                 <ul class="nav">
                     <li class="nav-item">
                         <a class="nav-link" href="dashboard.php">
@@ -124,7 +123,7 @@ if (isset($_GET['type']) && ($_GET['type'] != '') && isset($_GET['id']) && ($_GE
                             <span class="menu-title">copuon code</span>
                         </a>
                     </li>
-                    
+
                     <li class="nav-item">
                         <a class="nav-link" href="dish.php">
                             <i class="mdi mdi-view-headline menu-icon"></i>
@@ -138,8 +137,8 @@ if (isset($_GET['type']) && ($_GET['type'] != '') && isset($_GET['id']) && ($_GE
                 <div class="content-wrapper">
                     <div class="card">
                         <div class="card-body">
-                            <h1 class="card-title">copuon master</h1>
-                            <a href="manage_copoun.php" class="h2">Add copoun</a>
+                            <h1 class="card-title">dish master</h1>
+                            <a href="manage_dish.php" class="h2">Add dish</a>
                             <div class="row">
                                 <div class="col-12">
                                     <div class="table-responsive">
@@ -147,13 +146,12 @@ if (isset($_GET['type']) && ($_GET['type'] != '') && isset($_GET['id']) && ($_GE
                                             <thead>
                                                 <tr>
                                                     <th width="10%">S No</th>
-                                                    <th width="10%">copoun code</th>
-                                                    <th width="10%">type</th>
-                                                    <th width="10%">value</th>
-                                                    <th width="10%">min value</th>
-                                                    <th width="10%">expiry date</th>
-                                                    <th width="20%">added_on</th>
-                                                    <th width="20%">actions</th>
+                                                    <th width="15%">category</th>
+                                                    <th width="20%">dish</th>
+                                                    <th width="15%">image</th>
+                                                    <th width="15%">added on</th>
+                                                    <th width="30%">actions</th>
+
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -163,17 +161,16 @@ if (isset($_GET['type']) && ($_GET['type'] != '') && isset($_GET['id']) && ($_GE
                                                         ?>
                                                         <tr>
                                                             <td><?php echo $i; ?></td>
-                                                            <td><?php echo $row['c_name'] ?></td>
-                                                            <td><?php echo $row['c_type'] ?></td>
-                                                            <td><?php echo $row['c_value'] ?></td>
-                                                            <td><?php echo $row['c_min_value'] ?></td>
-                                                            <td><?php echo $row['ex_on'] ?></td>
+                                                            <td><?php echo $row['catagory'] ?></td>
+                                                            <td><?php echo $row['dish'] ?></td>
+                                                            <td><img src="<?php echo SITE_DISH_IMAGE.$row['image'] ; ?>" alt="Dish Image" />
+                                                    </td>
                                                             <td><?php
-                                                            $dtrstr =strtotime($row['added_on']);
+                                                            $dtrstr = strtotime($row['added_on']);
                                                             echo date('d-m-y', $dtrstr); ?></td>
-
                                                             <td>
-                                                                <a href="manage_copoun.php?id=<?php echo $row['id'] ?>"><label
+
+                                                                <a href="manage_dish.php?id=<?php echo $row['id'] ?>"><label
                                                                         class="badge badge-success p12 cursor">Edit</label></a>
                                                                 &nbsp;
                                                                 <?php
@@ -190,8 +187,7 @@ if (isset($_GET['type']) && ($_GET['type'] != '') && isset($_GET['id']) && ($_GE
                                                                 }
                                                                 ?>
 
-                                                                <a href="?id=<?php echo $row['id'] ?> &type=delete"><label
-                                                                        class="badge badge-danger p12 cursor">delete</label></a>
+
                                                                 &nbsp;
                                                             </td>
                                                         </tr>
@@ -227,7 +223,7 @@ if (isset($_GET['type']) && ($_GET['type'] != '') && isset($_GET['id']) && ($_GE
         </div>
         <!-- page-body-wrapper ends -->
     </div>
-    <!-- container-scroller -->
+    -- container-scroller -->
 
     <!-- plugins:js -->
     <script src="assets/js/vendor.bundle.base.js"></script>

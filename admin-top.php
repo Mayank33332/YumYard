@@ -11,7 +11,6 @@ if (!isset($_SESSION["is_login"])) {
 
 <html !DOCTYPE html>
 <html lang="en">
-
 <head>
     <!-- Required meta tags -->
     <meta charset="utf-8">
@@ -123,6 +122,13 @@ if (!isset($_SESSION["is_login"])) {
                         </a>
                     </li>
 
+                    <li class="nav-item">
+                        <a class="nav-link" href="dish.php">
+                            <i class="mdi mdi-view-headline menu-icon"></i>
+                            <span class="menu-title">Dish</span>
+                        </a>
+                    </li>
+
 
             </ul>
         </nav>
@@ -136,3 +142,4 @@ if (!isset($_SESSION["is_login"])) {
         <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+

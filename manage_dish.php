@@ -1,55 +1,71 @@
 <?php
 include("database.inc.php");
 include("function.php");
-$msg='';
-$c_name="";
-$c_type="";
-$c_value='';
-$c_min_value;
-$ex_on;
+include('constrant.php');
+$msg = '';
+$catagory_id = "";
+$dish = "";
+$dish_dtl = '';
 $status;
-$id='';
-
-if(isset($_POST["submit"])) {
-
-  $c_name = get_safe_value($_POST['c_name']);
-  $c_type = get_safe_value($_POST['c_type']);
-  $c_value= get_safe_value($_POST['c_value']);
-  $c_min_value=get_safe_value($_POST['c_min_value']);
-  $ex_on=get_safe_value($_POST['ex_on']);
-  $added_on=date('Y-m-d h:f:s');
+$id = '';
+$img_error='';
 
 
-  if(mysqli_num_rows(mysqli_query($con,"select * from copoun_code where id='$id'"))> 0) {
+if (isset($_POST["submit"])) {
+  $catagory_id = get_safe_value($_POST['catagory_id']);
+  $dish = get_safe_value($_POST['dish']);
+  $dish_dtl = get_safe_value($_POST['dish_dtl']);
+  $added_on = date('Y-m-d h:f:s');
 
-    $msg="this copouon alredy  exist";
 
+
+
+  if (mysqli_num_rows(mysqli_query($con, "select * from dish where id='$id'")) > 0) {
+
+    $msg = "this dish alredy  exist";
+
+    // if($id=''){
+    //   if($type!='image/jpeg' && $type!='image/png'){
+    //     $img_error="please add valid image";
+    //   }
+    
   }
+      else {
+        $image = $_FILES['image']['name'];
+        move_uploaded_file($_FILES['image']['tmp_name'], SERVER_DISH_IMAGE . $_FILES['image']['name']);
+        mysqli_query($con, "insert into dish(catagory_id,dish,dish_dtl,status,added_on,image)values('$catagory_id','$dish','$dish_dtl','1','$added_on','$image')");
+       
+        $atrarr=$_POST['attribute'];
+        $pricearr=$_POST['price'];
+        $did=mysqli_insert_id($con);
+    foreach($atrarr as $key=>$val){
+      $attribute=$val;
+      $price=$pricearr[$key];
+      mysqli_query($con,"insert into dish_dtl(dish_id,attribute,price,status,added_on) values('$did','$attribute','$price',1,'$added_on')");
+       redirect("dish.php");
+    }
+    
+      }
 
-  else
-  {
-   
-    mysqli_query($con,"insert into copoun_code(c_name,c_type,c_value,c_min_value,ex_on,status,added_on)values('$c_name','$c_type','$c_value','$c_min_value','$ex_on','1','$added_on')");
-    redirect("copuon_code.php");
+
   
-
-  }
-  if(isset($_GET['id']) && $_GET['id']>0){
-    $id = get_safe_value($_GET['id']);
-    $row=mysqli_fetch_assoc(mysqli_query($con,"select * from copoun_code where id='$id'"));
-    $c_name=$row['c_name'];
-    $c_type=$row['c_type'];
-    $c_value=$row['c_value'];
-    $c_min_value=$row['c_min_value'];
-    $ex_on=$row['ex_on'];
-
-  }
-
-
 }
+  if (isset($_GET['id']) && $_GET['id'] > 0) {
+    $id = get_safe_value($_GET['id']);
+    $row = mysqli_fetch_assoc(mysqli_query($con, "select * from dish where id='$id'"));
+    $catagory_id = $row['catagory_id'];
+    $dish = $row['dish'];
+    $dish_dtl = $row['dish_dtl'];
+    // $image=$row['image'];
 
 
-?>
+
+  }
+
+
+
+$res_cat = mysqli_query($con, "select * from catagory where status='1' order by catagory asc")
+  ?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -132,49 +148,62 @@ if(isset($_POST["submit"])) {
       <div class="main-panel">
         <div class="content-wrapper">
           <div class="row">
-            <h1 class="card-title ml10">manage copoune code </h1>
+            <h1 class="card-title ml10">manage dish </h1>
             <div class="col-12 grid-margin stretch-card">
               <div class="card">
                 <div class="card-body">
-                  <form class="forms-sample" method="post">
+                  <form class="forms-sample" method="post" enctype="multipart/form-data">
                     <div class="form-group">
-                      <label for="exampleInputName1">copoun code</label>
-                      <input type="text" class="form-control" placeholder="c_name" name="c_name" Required>
+                      <label for="exampleInputName1">catagory</label>
+                      <select class="form-control" name="catagory_id" Required>
+                        <option value="">select catagory</option>
+                        <?php
+                        while ($row_catagory = mysqli_fetch_assoc($res_cat)) {
+                          echo " <option value='" . $row_catagory['id'] . "'>" . $row_catagory['catagory'] . "</option>";
+                        }
+                        ?>
+                      </select>
                       <div style="color:red; margin-top:10px;     text-transform: capitalize;"></div>
                     </div>
                     <div class="form-group">
-                      <label for="exampleInputName1">copoun type</label>
-                      <input type="text" class="form-control" placeholder="c_type" name="c_type" Required>
-                      <div style="color:red; margin-top:10px;     text-transform: capitalize;"><?php  echo $msg;?></div>
+                      <label for="exampleInputName1">dish</label>
+                      <input type="text" class="form-control" placeholder="dish" name="dish" Required>
+                      <div style="color:red; margin-top:10px;     text-transform: capitalize;"><?php echo $msg; ?></div>
                     </div>
                     <div class="form-group">
-                      <label for="exampleInputName1">value</label>
-                      <input type="text" class="form-control" placeholder="c_value" name="c_value" Required>
-                      <div style="color:red; margin-top:10px;     text-transform: capitalize;"></div>
-                    </div>
-                    <div class="form-group">
-                      <label for="exampleInputName1">minimum value</label>
-                      <input type="text" class="form-control" placeholder="c_min_value" name="c_min_value" Required>
-                      <div style="color:red; margin-top:10px;     text-transform: capitalize;"></div>
-                    </div>
-                    <div class="form-group">
-                      <label for="exampleInputName1">expired on</label>
-                      <input type="date" class="form-control" placeholder="ex_on" name="ex_on" Required>
-                      <div style="color:red; margin-top:10px;     text-transform: capitalize;"></div>
-                    </div>
-                    <button type="submit" class="btn btn-primary mr-2n" name="submit">Submit</button>
+                      <label for="exampleInputName1">dish_dtl</label>
+                      <textarea class="form-control" name="dish_dtl" placeholder="dish details"></textarea>
+                      <div class="form-group">
+                        <label for="exampleInputName1">dish image</label>
+                        <input type="file" class="form-control" name="image" placeholder="dish image"></input>
+                        <div style="color:red; margin-top:10px;     text-transform: capitalize;"><?php echo $img_error;  ?></div>
+                      </div>
+                      <div class="form-group" id="dish_bx1">
+                      <label for="exampleInputName1">dish details</label>
+                        <div class="row">
+                      
+                          <div class="col-5">
+                          <input type="text" class="form-control" placeholder="attribute" name="attribute[]" Required>
+                          </div>
+                          <div class="col-5 ">
+                          <input type="text" class="form-control" placeholder="price" name="price[]" Required>
+                          </div>
+                        </div>
+                            </div>
+                        <button type="submit" class="btn btn-primary mr-2n" name="submit">Submit</button>
+                        <button type="button" class="btn badge-danger mr-2n" onclick="add_more()">add more</button>
+
+                      
                   </form>
                 </div>
               </div>
+     
             </div>
 
           </div>
 
         </div>
-        <!-- content-wrapper ends -->
-        <!-- partial:../../partials/_footer.html -->
-        <!-- content-wrapper ends -->
-        <!-- partial:partials/_footer.html -->
+        <input type="hidden" id="add_more" value="1"/>
         <footer class="footer">
           <div class="d-sm-flex justify-content-center justify-content-sm-between">
             <span class="text-muted text-center text-sm-left d-block d-sm-inline-block">Copyright © 2024 <a
@@ -206,6 +235,21 @@ if(isset($_POST["submit"])) {
   <!-- Custom js for this page-->
   <script src="assets/js/dashboard.js"></script>
   <!-- End custom js for this page-->
+
+
+  <script>
+    function add_more(){
+      var add_more=jQuery('#add_more').val();
+      add_more++;
+      jQuery('#add_more').val(add_more);
+        var dish_box='<div class="row mt8" id="box'+add_more+'"><div class="col-5"><input type="text" class="form-control" placeholder="attribute" name="attribute[]" Required> </div><div class="col-5"><input type="text" class="form-control" placeholder="price" name="price[]" Required></div> <div class="col-2"> <button type="button" class="btn badge-danger mr-2n" onclick=remove_more("'+add_more+'")>remove</button></div </div>'
+        jQuery('#dish_bx1').append(dish_box );
+    }
+
+    function remove_more(id){
+      jQuery('#box'+id).remove();
+    }
+  </script>
 </body>
 
 </html>

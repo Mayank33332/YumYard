@@ -1,3 +1,5 @@
+
+
 * {
     margin: 0;
     padding: 0;
@@ -13,7 +15,6 @@ html {
 }
 
 .main {
-
     height: 80vh;
     background-position: center center;
     background-repeat: no-repeat;
@@ -175,8 +176,9 @@ a{
 
 /*--------------------------------------option-------------------------*/
 .option {
-    height: 150vh;
-    margin-top: 150px;
+    width: 100%;
+    max-width: 1200px; 
+    margin: 0 auto;
 }
 
 .rated {
@@ -191,24 +193,22 @@ a{
 }
 
 .food-names {
-    display: flex;
-    padding: 2rem;
-    gap: 2rem;
-    justify-content: center;
-    flex-wrap: wrap;
-
+    display: flex; /* Enables flexbox layout */
+    gap: 16px; /* Adds space between the cards */
+    flex-wrap: wrap; /*Allows wrapping if the cards don't fit */
+    justify-content: space-between; /* Adjust alignment of items */
 }
 
+
+
 .sub-name {
-    background: linear-gradient(to bottom, #ffffff, #f0f0f0);
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    overflow: hidden;
-    width: 600px;
-    text-align: center;
-    transition: transform 0.3s;
-    padding:40px 30px ;
-    color: #333;
+    flex: 0 1 300px; 
+    border: 1px solid #ccc; /* Optional: Styling for cards */
+    border-radius: 8px; /* Optional: Rounded corners */
+    padding: 16px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Optional: Shadow */
+    background-color: #fff; /* Optional: Background color */
+    transition: all 0.3s ease-in-out    ;
 }
 
 
@@ -275,13 +275,15 @@ a{
 }
 
 .cart{
-    text-decoration: none;
     color: white;
     font-size: 20px;
     padding: 12px 30px;
     background-color:#d00000;
     text-align: center;
     border-radius: 10px;
+    border: none;
+    cursor: pointer;
+  
 }
 
 .view-more{
@@ -297,6 +299,56 @@ a{
     font-family: sans-serif;
     padding: 10px 30px;
     font-weight: bold;
+    border-radius: 10px;
+
+}
+
+.btn{
+    display: flex;
+    justify-content:space-between;
+    align-items: center;
+    margin-top: 30px;
+    
+}
+
+.cart-ic{
+    position: relative;
+}
+
+.cart-img{
+    height: 50px;
+    width: 50px;
+    cursor: pointer;
+    padding: 29px 29px;
+    position: absolute;
+    right: 5%;
+ 
+
+   
+}
+.cart-img:hover{
+    opacity: 0.8;
+}
+
+.cart-num{
+    position: absolute;
+    right: 5%;
+    background-color: orangered;
+    color: white;
+    padding: 5px 10px;
+    border-radius: 50%;
+}
+
+.ct{
+    display: flex;
+    gap:5px;
+    text-transform: capitalize;
+}
+.qty{
+    padding: 5px 20px;
+    border: 2px solid gray;
+    font-size: 15px;
+    text-transform: uppercase;
     border-radius: 10px;
 
 }

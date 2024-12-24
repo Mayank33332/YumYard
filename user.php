@@ -91,7 +91,7 @@ if (isset($_GET['type']) && ($_GET['type'] != '') && isset($_GET['id']) && ($_GE
       <nav class="sidebar sidebar-offcanvas" id="sidebar">
         <ul class="nav">
           <li class="nav-item">
-            <a class="nav-link" href="index.html">
+            <a class="nav-link" href="dashboard.php">
               <i class="mdi mdi-view-quilt menu-icon"></i>
               <span class="menu-title">Dashboard</span>
             </a>
@@ -119,6 +119,13 @@ if (isset($_GET['type']) && ($_GET['type'] != '') && isset($_GET['id']) && ($_GE
                         <a class="nav-link" href="copuon_code.php">
                             <i class="mdi mdi-view-headline menu-icon"></i>
                             <span class="menu-title">copuon code</span>
+                        </a>
+                    </li>
+                    
+                    <li class="nav-item">
+                        <a class="nav-link" href="dish.php">
+                            <i class="mdi mdi-view-headline menu-icon"></i>
+                            <span class="menu-title">Dish</span>
                         </a>
                     </li>
         </ul>

@@ -46,7 +46,7 @@ nav {
     display: flex;
     justify-content:flex-end;
     gap: 60px;
-    margin-right: 50px;
+    margin-right:130px;
 
 }
 
@@ -200,7 +200,7 @@ a.active {
 /* ====================================catalog======================== */
 .main-3 {
 
-    background-color: #D2001A;
+    background-color: #16423C;
     margin-top: 60px;
     margin-left: 10px;
     gap: 40px;
@@ -527,4 +527,29 @@ hr {
     border-radius: 5px;
     margin: 15px;
     font-size: 14px;
+}
+
+.drp-down{
+    position: relative;
+    display: block;
+}
+
+.drp-content{
+  display: none;
+  position: absolute;
+  background-color:white;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+}
+
+.drp-down:hover .drp-content {
+    display:flex;
+    flex-direction: column;
+}
+
+
+.wel{
+    font-size: 20px;
+    text-transform: uppercase;
 }

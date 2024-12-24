@@ -19,7 +19,10 @@ if (isset($_GET['type']) && ($_GET['type'] != '') && isset($_GET['id']) && ($_GE
     if ($type == 'deactive') {
       $status = 0;
     }
-    mysqli_query($con, "update catagory set status='$status'  where id='$id'");
+    if ($type == 'update'){
+
+      mysqli_query($con, "update catagory set status='$status'  where id='$id'");
+    }
   }
 }
 
@@ -123,6 +126,13 @@ if (isset($_GET['type']) && ($_GET['type'] != '') && isset($_GET['id']) && ($_GE
                             <span class="menu-title">copuon code</span>
                         </a>
                     </li>
+                    
+                    <li class="nav-item">
+                        <a class="nav-link" href="dish.php">
+                            <i class="mdi mdi-view-headline menu-icon"></i>
+                            <span class="menu-title">Dish</span>
+                        </a>
+                    </li>
         </ul>
       </nav>
       <!-- partial -->
@@ -155,7 +165,7 @@ if (isset($_GET['type']) && ($_GET['type'] != '') && isset($_GET['id']) && ($_GE
                               <td><?php echo $row['order_no'] ?></td>
 
                               <td>
-                                <a href="manage_cat.php?id=<?php echo $row['id']?>"><label class="badge badge-success p12 cursor">Edit</label></a>
+                                <a href="manage_cat.php?id=<?php echo $row['id']?> &type=update"><label class="badge badge-success p12 cursor">Edit</label></a>
                                 &nbsp;
                                 <?php
                                 if($row['status'] == 1) { ?>
